@@ -6,7 +6,6 @@
   }
   .navbar ul {
     list-style-type: none !important;
-  
   }
   
   .navbar li {
@@ -24,6 +23,21 @@
   .navbar li a:hover {
     background-color: #111 !important;
   }
+
+  @media screen and (min-width: 64em) {
+    .navbar {
+      padding: 0rem 10.5rem;
+      margin: 0 auto;
+    }}
+  @media screen and (min-width: 42em) and (max-width: 64em) {
+    .navbar {
+      padding: 0rem 4rem;
+    }}
+  
+  @media screen and (max-width: 42em) {
+    .navbar {
+      padding: 0rem 1rem;
+    }}
 
   .image-link{
     border-width: 1px;
