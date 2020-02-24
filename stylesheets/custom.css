@@ -24,3 +24,15 @@
   .navbar li a:hover {
     background-color: #111 !important;
   }
+
+  .image-link{
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.2);
+    display: inline-block;
+    border-style: solid;
+    margin: 2px;
+  }
+  .image-link img:hover {
+    filter: alpha(opacity=80);
+    opacity: .8;
+}
