@@ -22,7 +22,7 @@
         <h1 id="barchart-race">barchart-race</h1>
         <p>I decided to try my hand at making one of the increasingly popular bar chart race plots. And since I work in government consulting, I of course decided to give it a government flavor. I give you budget outlays by year and department.</p>
         <p>Let the race begin!</p>
-        <p><img src="https://github.com/corydonbaylor/barchart-race/blob/master/final.gif?raw=true" alt="alt text"></p>
+        <p><img src="images/final.gif" alt="alt text"></p>
         <p>So how does this work?</p>
         <p>This is all done in R using this wonderful package called “gganimate”. Basically what this package lets you make gifs out of ggplots!</p>
         <p>First lets start with the type of data that is needed for gganimate:</p>
@@ -60,7 +60,7 @@
         <p>How gganimate works is that the user to designate a variable as the “transition variable”. The packages then splits the plot data up into different states by the transition variable and animates transitions between those states. </p>
         <p>So for this example, if you pick the “Time” variable, each frame in the gif will the source data filtered down to one year. The first frame will be a bar graph for just 2017, the second frame will be a bar graph for just 2018, and so on and on. Basically, you are creating hundreds of plots and showing one at a time to create a movie.</p>
         <p>Here is what the above gif would look like if all the frames were shown at once:</p>
-        <p><img src="https://github.com/corydonbaylor/barchart-race/blob/master/all-together.jpg" alt=""></p>
+        <p><img src="images/all-together.jpg" alt=""></p>
         <p>On top of cutting the plot data by time and showing them in sequence, gganimate also interpolates what should be between each plot. This allows you to create gifs with limited amount of data and smooths the animation between data points. As such, frames come in two flavors in gganimate: state and transitional. State frames are data points explicitly provided by the user. Transitional frames are interpolated data points between state frames. Using the above example, here is what is happening:</p>
         <table>
         <thead>
