@@ -50,3 +50,6 @@
     filter: alpha(opacity=80);
     opacity: .8;
 }
+.btn a{
+  color: #606c71 !important;
+}
