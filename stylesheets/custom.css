@@ -55,3 +55,12 @@ a .btn {
   color:#606c71 ;
   text-decoration: none;
 }
+
+.small-link a{
+  color:#606c71 ;
+  text-decoration: none;
+}
+
+.small-link a:hover{
+  color:#1e6bb8;
+}
