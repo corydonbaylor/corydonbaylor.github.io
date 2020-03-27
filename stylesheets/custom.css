@@ -168,3 +168,7 @@ a .btn {
 .small-link a:hover{
   color:#1e6bb8;
 }
+
+html {
+  scroll-behavior: smooth;
+}
