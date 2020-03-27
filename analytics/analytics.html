@@ -21,7 +21,15 @@
         <li><a href="../visualizations/viz_index.html">Visualizations</a></li>
         </ul>
     </div>
+
+
         <section class="main-content">
+
+<!-- 
+Intro Section
+-->
+
+          <div class = "first-section">
             <h3>Analytics</h3>
             <p>
               For me, analytics is the discpline of getting insights out of data, and these
@@ -32,7 +40,7 @@
               Thus far in my career, I have mostly stuck to making webapps in shiny and automating reporting, 
               so this section will have an emphasis on those skills. 
             </p>
-            <a class ="a-btn" href="nlp/nlp_index.html">
+            <a class ="a-btn" href="#nlp">
                 <div class="btn" style="vertical-align: middle;">
                     <i class="fa fa-comments" style="font-size: 1.5rem; padding-right: .5rem;"></i>
                     NLP Working Group</div>
@@ -44,10 +52,41 @@
             <div class="btn" style="vertical-align: middle;">
                 <i class="fas fa-robot" style="font-size: 1.5rem; padding-right: .5rem;"></i>
                 Automated Reporting</div>
-            <h3>NLP Working Group</h3>
+            <br><br>
+          </div>
+
+<!-- 
+ NLP Subsection 
+-->
+
+          <div class="sub-section">
+            <a name = "nlp"><h3>Natural Language Processing Working Group</h3></a>
             <p>
-              A few coworkers from Booz, Micahel Bunting and Caitlin Kennedy, started to an NLP working group. 
-              We are covering topics such as <a href="nlp/rvest-tutorial.html">webscrapping</a>, APIs, social media scraping, and NLP techniques.
+              Caitlin Kennedy, Michael Bunting, and myself have been working through a udemy
+              course on NLP in R as part of working group for Booz Allen, and as we have been meandering 
+              our way through the class, we have found the materials to be a bit... lacking at times. 
             </p>
+            <pr>
+                From the start, we had kicked around the idea of creating some sort of product to share
+                with the larger team once completed. While we certainly haven't closed the door on making
+                a product, we have landed on making a repository of training materials that could be 
+                used by future enthusiasts to better understand R and NLP. 
+            </pr>
+            <h3> Text Mining in R</h3>
+            <p>
+                Like with every other form of analytics, before any real work can be down,
+                the data must exist (obviously) and be in a working format. The following three
+                tutorials explain how to mine text in R:
+            </p>
+            <span class = "small-link">
+                <a href="nlp/rvest-tutorial.html">
+                <i class="fab fa-chrome" style= "font-size: 1.15em;"> Web Scrapping with rvest</i> </a> |
+                <a href="nlp/api-turtorial.html">
+                <i class="fas fa-download" style= "font-size: 1.15em;"> 
+                    <span style="font-weight: normal;">APIs with jsonlite</span></i> </a>|
+                <a href = "nlp/twitter-tutorial.html">    
+                <i class="fab fa-twitter" style= "font-size: 1.15em;"> Twitter Data with rtweet</i></a>
+            </span>
+          </div>
         </section>
 </body>

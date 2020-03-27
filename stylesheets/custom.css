@@ -52,8 +52,62 @@
 }
 
 /*
+Creating Subsections
+*/
+
+.first-section{
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 2rem !important;
+}
+
+.sub-section{
+  border-bottom: 1px solid #dee2e6;
+  padding-top: 2rem !important;
+  padding-bottom: 2rem !important;
+}
+
+
+/*
+CSS for boxes
+*/
+
+.box {
+  display: inline-block;
+  color:
+  margin-bottom: 1rem;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 0.3rem;
+  transition: color 0.2s, background-color 0.2s, border-color 0.2s; }
+
+  .box a{
+    color: #606c71 ;
+  } 
+  .box a:hover{
+    color: #1e6bb8 !important;
+    text-decoration: none;
+  }
+
+  @media screen and (min-width: 64em) {
+    .box {
+      padding: 0.75rem 1rem; } }
+  
+  @media screen and (min-width: 42em) and (max-width: 64em) {
+    .box {
+      padding: 0.6rem 0.9rem;
+      font-size: 0.9rem; } }
+  
+  @media screen and (max-width: 42em) {
+    .box {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 0.9rem; }
+
+/*
 CSS for buttons
 */
+
 .btn {
   display: inline-block;
   color:
@@ -62,6 +116,7 @@ CSS for buttons
   border-width: 1px;
   border-radius: 0.3rem;
   transition: color 0.2s, background-color 0.2s, border-color 0.2s; }
+
   .btn + .btn {
     margin-left: 1rem; }
 
