@@ -185,9 +185,7 @@ summary {
 
 <section class= "main-content">
 
-<h1 class="title toc-ignore">Introduction to Webscrapping in R</h1>
-<h4 class="author">Team Hanley NLP Working Group</h4>
-
+<h3 class="title toc-ignore">Introduction to Webscrapping in R</h3>
 
 <div id="TOC">
 <ul>
@@ -200,7 +198,7 @@ summary {
 </div>
 
 <div id="what-is-rvest">
-<h2>What is rvest</h2>
+<h3>What is rvest</h3>
 <p>For the unintiated, webscrapping is how t0 pull data down from a website and clean it so that it can be used for analysis, and <code>rvest</code> is the primary package used for webscraping in R.</p>
 <p>From <a href="https://blog.rstudio.com/2014/11/24/rvest-easy-web-scraping-with-r/">the rstudio blog</a>:</p>
 <blockquote>
@@ -210,10 +208,10 @@ summary {
 <p>Before we get into examples, lets go over how <code>rvest</code> works at its most basic level:</p>
 </div>
 <div id="webscraping-basics-in-rvest" class="section level2">
-<h2>Webscraping Basics in rvest</h2>
+<h3>Webscraping Basics in rvest</h3>
 <p>First, how do we get a webpage all the way from the internet onto our local computers. As you can guess by the name, the <code>read_html()</code> function will do this for us. Simply enter the name of the page you would like to scrape (in quotes) and put it in the function.</p>
 <div id="read_html-or-getting-the-html" class="section level3">
-<h3>read_html or Getting the HTML</h3>
+<h5>read_html or Getting the HTML</h5>
 <pre class="r"><code>library(rvest)
 read_html(&quot;https://en.wikipedia.org/wiki/2016_Summer_Olympics_medal_table&quot;)</code></pre>
 <pre><code>## {xml_document}
@@ -223,7 +221,7 @@ read_html(&quot;https://en.wikipedia.org/wiki/2016_Summer_Olympics_medal_table&q
 <p>This returns an <strong>html object</strong>, and while this technically contains all the information we need, it doesn’t really help us. Luckily, <code>rvest</code> comes with simple to use helper functions that will let us get this webpage into the right format.</p>
 </div>
 <div id="finding-a-page-element" class="section level3">
-<h3>Finding a Page Element</h3>
+<h5>Finding a Page Element</h5>
 <p>But before we go over how to use rvest’s helper functions, we need to go over how to find a particular element on a page. This will be done with the <strong>“Inspect”</strong> option in chrome.</p>
 <p>If you are looking to pull back multiple page elements you will need to find the <strong>CSS Class</strong> that applies to those elements, and if you are looking to pull back a single element, you will need its <strong>xpath</strong>.</p>
 <p>You may be thinking, what is an <strong>xpath</strong>? An xpath is a path to a particular web element. In order to find one complete the following steps (in Chrome):</p>
@@ -239,7 +237,7 @@ read_html(&quot;https://en.wikipedia.org/wiki/2016_Summer_Olympics_medal_table&q
 <p>Finding the CSS class is even easier. For the web element that you are looking to retrieve, inspect it, and see what CSS class is being applied. Insert that class name into <code>html_nodes()</code>.</p>
 </div>
 <div id="html_nodes-and-html_table" class="section level3">
-<h3>html_nodes and html_table</h3>
+<h5>html_nodes and html_table</h5>
 <p>Once you have pulled down the html and know the CSS Class or xpath that you want to use, you can retrieve it/them using <code>html_nodes()</code> or <code>html_node()</code>.</p>
 <p>In this case, we are using an <strong>xpath</strong> to pull out the table. Because we looking for <em>one</em> thing, use <code>html_node()</code> rather than <code>html_nodes()</code>, which will return elements back in a list.</p>
 <p>For our example, go to the wikipedia page and inspect the 2016 Summer Olympics medal table. Next, look for a <code>&lt;table&gt;</code> tag. Right click this and go to <strong>Copy XPath</strong>. You should get the same value as you see in the <code>html_node()</code> below.</p>
@@ -405,7 +403,7 @@ Japan (JPN)
 </table>
 </div>
 <div id="html_nodes-and-html_text" class="section level3">
-<h3>html_nodes and html_text</h3>
+<h5>html_nodes and html_text</h5>
 <p>So what if the data you are looking to pull back isn’t already in a table. What if you want to create a table from information on the webpage? In that case, <code>html_table()</code> won’t work. Instead, you will have to assemble the table yourself.</p>
 <p>Enter, <code>html_text()</code>. This function extracts the text from inside a tag. Let’s look at a quick example. First, without <code>html_text</code> then with it.</p>
 <pre class="r"><code>url = &quot;http://www.imdb.com/search/title?year=2017&amp;title_type=feature&amp;&quot;
@@ -432,7 +430,7 @@ titles[1:2]</code></pre>
 </div>
 </div>
 <div id="problem-1-creating-a-table-from-a-webpage" class="section level2 tabset tabset-fade">
-<h2>Problem 1: Creating a Table from a Webpage</h2>
+<h3>Problem 1: Creating a Table from a Webpage</h3>
 <div id="problem" class="section level3">
 <h3>Problem</h3>
 <p>From the following hyperlink, create a dataframe that contains the below columns:<br> <a href="http://www.imdb.com/search/title?year=2017&amp;title_type=feature" class="uri">http://www.imdb.com/search/title?year=2017&amp;title_type=feature</a>&amp;</p>
@@ -600,7 +598,7 @@ Action
 </div>
 </div>
 <div id="problem-2-creating-a-table-from-unstructured-text" class="section level2 tabset tabset-fade">
-<h2>Problem 2: Creating a Table from Unstructured Text</h2>
+<h3>Problem 2: Creating a Table from Unstructured Text</h3>
 <div id="problem-1" class="section level3">
 <h3>Problem</h3>
 <p>This problem is admittedly much more difficult and will test your ability to work with text data as much, if not more, than your ability to webscrape.</p>
@@ -723,7 +721,7 @@ Good luck to you. [applause] Well, I don’t expect us to cover all the issues o
 </div>
 </div>
 <div id="conclusion" class="section level2">
-<h2>Conclusion</h2>
+<h3>Conclusion</h3>
 <p>And there you go! That’s a mild introduction to how to webscrape with R. We went over how to find the correct <strong>xpath</strong> or <strong>CSS Class</strong> to isolate what data we would like to pull back.</p>
 <p>The <code>html_node()</code> and <code>html_table()</code> can be used to pull back a clean html table into R.</p>
 <p>The <code>html_nodes()</code> and <code>html_text()</code> can be used to pull back a character vector. Using <code>data.frame()</code>, we can assemble a dataframe out of the different vectors we pull back.</p>
