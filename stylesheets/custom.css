@@ -121,7 +121,6 @@ CSS for buttons
 
 .btn {
   display: inline-block;
-  color:
   margin-bottom: 1rem;
   border-style: solid;
   border-width: 1px;
@@ -197,4 +196,23 @@ a .btn {
 
 .skill-icons:hover{
   color: #BD5D38
+}
+
+#top_button {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0px 5px;
+  border-radius: 4px;
+}
+
+#top_button:hover {
+  background-color: #555;
+  color: white;
 }
