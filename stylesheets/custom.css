@@ -148,6 +148,7 @@ CSS for buttons
 @media screen and (min-width: 42em) and (max-width: 64em) {
   .btn {
     padding: 0.6rem 0.9rem;
+    margin-bottom: .33rem;
     font-size: 0.9rem; } }
 
 @media screen and (max-width: 42em) {
@@ -155,6 +156,7 @@ CSS for buttons
     display: block;
     width: 100%;
     padding: 0.75rem;
+    margin-bottom: .33rem;
     font-size: 0.9rem; }
     .btn + .btn {
       margin-top: 1rem;
@@ -170,12 +172,13 @@ a .btn {
 }
 
 .small-link a{
-  color:#606c71 ;
+  color:#606c71;
   text-decoration: none;
 }
 
 .small-link a:hover{
   color:#1e6bb8;
+  text-decoration: none;
 }
 
 .skill-icons-list{
