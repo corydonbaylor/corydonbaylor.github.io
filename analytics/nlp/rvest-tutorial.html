@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Team Hanley NLP Working Group" />
+
+
+<title>Introduction to Webscrapping in R</title>
+<!-- Depedencies -->
+
+<!-- jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="../../stylesheets/bootstrap.min.css" rel="stylesheet" />
+<script src = "../../js/scroller.js"></script>
+<script src="../../js/bootstrap-js/bootstrap.min.js"></script>
+<script src="../../js/shim/html5shiv.min.js"></script>
+<script src="../../js/shim/respond.min.js"></script>
+<script src="../../js/navigation-1.1/tabsets.js"></script>
+
+<!-- <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script> -->
+
+
+<script src="../../js/kePrint-0.0.1/kePrint.js"></script>
+<link rel="stylesheet" type="text/css" href="../../stylesheets/stylesheet.css" media="screen">
+<link rel="stylesheet" type="text/css" href="../../stylesheets/github-light.css" media="screen">
+<link rel="stylesheet" type="text/css" href="../../stylesheets/custom.css" media="screen">
+
+
+<!-- <style type="text/css">code{white-space: pre;}</style> -->
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+/* .main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+} */
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+    <div class = "navbar" style="background-color:#333;">
+        <ul>
+          <li><a class="active" href="../../index.html">Home</a></li>
+          <li><a href="../analytics.html">Analytics</a></li>
+          <li><a href="../../visualizations/viz_index.html">Visualizations</a></li>
+        </ul>
+      </div>
+
+
+<section class= "main-content">
+
+<h3 class="title toc-ignore">Introduction to Webscrapping in R</h3>
+
+<div id="TOC">
+<ul>
+<li><a href="#what-is-rvest">What is rvest</a></li>
+<li><a href="#webscraping-basics-in-rvest">Webscraping Basics in rvest</a></li>
+<li><a href="#problem-1-creating-a-table-from-a-webpage">Problem 1: Creating a Table from a Webpage</a></li>
+<li><a href="#problem-2-creating-a-table-from-unstructured-text">Problem 2: Creating a Table from Unstructured Text</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+
+<div id="what-is-rvest">
+<h3>What is rvest</h3>
+<p>For the unintiated, webscrapping is how t0 pull data down from a website and clean it so that it can be used for analysis, and <code>rvest</code> is the primary package used for webscraping in R.</p>
+<p>From <a href="https://blog.rstudio.com/2014/11/24/rvest-easy-web-scraping-with-r/">the rstudio blog</a>:</p>
+<blockquote>
+<p>“rvest is new package that makes it easy to scrape (or harvest) data from html web pages, inspired by libraries like beautiful soup. It is designed to work with magrittr so that you can express complex operations as elegant pipelines composed of simple, easily understood pieces.”</p>
+</blockquote>
+<p>Even though we are elite hackers, we will only have access to the same information that is publically available for everyone. To get a better sense of what we have access to, go to any webpage, right-click and select <strong>“Inspect”</strong>. You will see a bunch of html tags. This is what is available to us for scraping.</p>
+<p>Before we get into examples, lets go over how <code>rvest</code> works at its most basic level:</p>
+</div>
+<div id="webscraping-basics-in-rvest" class="section level2">
+<h3>Webscraping Basics in rvest</h3>
+<p>First, how do we get a webpage all the way from the internet onto our local computers. As you can guess by the name, the <code>read_html()</code> function will do this for us. Simply enter the name of the page you would like to scrape (in quotes) and put it in the function.</p>
+<div id="read_html-or-getting-the-html" class="section level3">
+<h5>read_html or Getting the HTML</h5>
+<pre class="r"><code>library(rvest)
+read_html(&quot;https://en.wikipedia.org/wiki/2016_Summer_Olympics_medal_table&quot;)</code></pre>
+<pre><code>## {xml_document}
+## &lt;html class=&quot;client-nojs&quot; lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;
+## [1] &lt;head&gt;\n&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8 ...
+## [2] &lt;body class=&quot;mediawiki ltr sitedir-ltr mw-hide-empty-elt ns-0 ns-subject  ...</code></pre>
+<p>This returns an <strong>html object</strong>, and while this technically contains all the information we need, it doesn’t really help us. Luckily, <code>rvest</code> comes with simple to use helper functions that will let us get this webpage into the right format.</p>
+</div>
+<div id="finding-a-page-element" class="section level3">
+<h5>Finding a Page Element</h5>
+<p>But before we go over how to use rvest’s helper functions, we need to go over how to find a particular element on a page. This will be done with the <strong>“Inspect”</strong> option in chrome.</p>
+<p>If you are looking to pull back multiple page elements you will need to find the <strong>CSS Class</strong> that applies to those elements, and if you are looking to pull back a single element, you will need its <strong>xpath</strong>.</p>
+<p>You may be thinking, what is an <strong>xpath</strong>? An xpath is a path to a particular web element. In order to find one complete the following steps (in Chrome):</p>
+<ul>
+<li>Find the element that you want on a webpage</li>
+<li>Inspect it and look for its tag in the html console</li>
+<li>Right click on its tag and go to “Copy” -&gt; “Copy XPath”.</li>
+<li>Paste it into <code>html_node()</code>.</li>
+</ul>
+<p>Or as seen on TV:</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jSiYpmvA50A?start=25" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+<p>Finding the CSS class is even easier. For the web element that you are looking to retrieve, inspect it, and see what CSS class is being applied. Insert that class name into <code>html_nodes()</code>.</p>
+</div>
+<div id="html_nodes-and-html_table" class="section level3">
+<h5>html_nodes and html_table</h5>
+<p>Once you have pulled down the html and know the CSS Class or xpath that you want to use, you can retrieve it/them using <code>html_nodes()</code> or <code>html_node()</code>.</p>
+<p>In this case, we are using an <strong>xpath</strong> to pull out the table. Because we looking for <em>one</em> thing, use <code>html_node()</code> rather than <code>html_nodes()</code>, which will return elements back in a list.</p>
+<p>For our example, go to the wikipedia page and inspect the 2016 Summer Olympics medal table. Next, look for a <code>&lt;table&gt;</code> tag. Right click this and go to <strong>Copy XPath</strong>. You should get the same value as you see in the <code>html_node()</code> below.</p>
+<p>After that, its smooth sailing. You have a table, so pipe it into the <code>html_table()</code> function and set <code>fill = TRUE</code>. I used the <code>kableExtra</code> package to make this look nicer for this markdown, but thats not neccessary for webscraping. Your results should look something like the below table.</p>
+<pre class="r"><code>library(kableExtra) # this is just to make the tables look nice
+
+url &lt;- &quot;https://en.wikipedia.org/wiki/2016_Summer_Olympics_medal_table&quot;
+
+medal_tally &lt;- url %&gt;% 
+  read_html() %&gt;% # read_html pulls in the entire html for a webpage
+  # html_nodes finds a specificed part of the page
+  html_node(xpath=&#39;//*[@id=&quot;mw-content-text&quot;]/div/table[2]&#39;) %&gt;%
+  # if that node is a table, you can pull it out with html_table
+  html_table(fill=TRUE)
+
+kable(head(medal_tally), format = &quot;html&quot;)%&gt;%
+  kable_styling(&quot;striped&quot;)</code></pre>
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Rank
+</th>
+<th style="text-align:left;">
+NOC
+</th>
+<th style="text-align:right;">
+Gold
+</th>
+<th style="text-align:right;">
+Silver
+</th>
+<th style="text-align:right;">
+Bronze
+</th>
+<th style="text-align:right;">
+Total
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+United States (USA)
+</td>
+<td style="text-align:right;">
+46
+</td>
+<td style="text-align:right;">
+37
+</td>
+<td style="text-align:right;">
+38
+</td>
+<td style="text-align:right;">
+121
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+Great Britain (GBR)
+</td>
+<td style="text-align:right;">
+27
+</td>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+67
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+China (CHN)
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+26
+</td>
+<td style="text-align:right;">
+70
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+Russia (RUS)
+</td>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+56
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+Germany (GER)
+</td>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+42
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+Japan (JPN)
+</td>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+41
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="html_nodes-and-html_text" class="section level3">
+<h5>html_nodes and html_text</h5>
+<p>So what if the data you are looking to pull back isn’t already in a table. What if you want to create a table from information on the webpage? In that case, <code>html_table()</code> won’t work. Instead, you will have to assemble the table yourself.</p>
+<p>Enter, <code>html_text()</code>. This function extracts the text from inside a tag. Let’s look at a quick example. First, without <code>html_text</code> then with it.</p>
+<pre class="r"><code>url = &quot;http://www.imdb.com/search/title?year=2017&amp;title_type=feature&amp;&quot;
+
+# This CSS class contains all the title names for movies.
+titles = read_html(url)%&gt;%
+  html_nodes(css = &#39;.lister-item-header a&#39;)
+
+titles[1:2]</code></pre>
+<pre><code>## {xml_nodeset (2)}
+## [1] &lt;a href=&quot;/title/tt2283362/?ref_=adv_li_tt&quot;&gt;Jumanji: Welcome to the Jungle ...
+## [2] &lt;a href=&quot;/title/tt1856101/?ref_=adv_li_tt&quot;&gt;Blade Runner 2049&lt;/a&gt;</code></pre>
+<p>As you can see this returned a list of html tags. While this could be useful, what we are really interested in is the text within them. As previously mentioned, we can use <code>html_text()</code> to extract this.</p>
+<pre class="r"><code>url = &quot;http://www.imdb.com/search/title?year=2017&amp;title_type=feature&amp;&quot;
+
+# This CSS class contains all the title names for movies.
+titles = read_html(url)%&gt;%
+  html_nodes(css = &#39;.lister-item-header a&#39;)%&gt;%
+  html_text()
+
+titles[1:2]</code></pre>
+<pre><code>## [1] &quot;Jumanji: Welcome to the Jungle&quot; &quot;Blade Runner 2049&quot;</code></pre>
+<p>Notice what this returns: a <strong>character vector</strong> of the movie titles. You can use the <code>data.frame()</code> to consolidate a few of these into a single dataframe (which is the way to solve the first example problem).</p>
+</div>
+</div>
+<div id="problem-1-creating-a-table-from-a-webpage" class="section level2 tabset tabset-fade">
+<h3>Problem 1: Creating a Table from a Webpage</h3>
+<div id="problem" class="section level3">
+<h3>Problem</h3>
+<p>From the following hyperlink, create a dataframe that contains the below columns:<br> <a href="http://www.imdb.com/search/title?year=2017&amp;title_type=feature" class="uri">http://www.imdb.com/search/title?year=2017&amp;title_type=feature</a>&amp;</p>
+<p>Columns:</p>
+<ul>
+<li>rank</li>
+<li>title</li>
+<li>run_time</li>
+<li>genre</li>
+<li>primary genre (the first genre returned)</li>
+</ul>
+<p><strong>Hints</strong></p>
+<ul>
+<li>Find the CSS classes of the elements you want using inspect</li>
+<li>Use <code>html_text()</code> to extract the text</li>
+<li>You will need pattern replacement to clean up the returned strings</li>
+<li><code>extract_numeric()</code> from tidyr will take just the numeric values from a character string</li>
+</ul>
+</div>
+<div id="solution" class="section level3">
+<h3>Solution</h3>
+<pre class="r"><code>######## IMDB WEBSITE
+library(tidyr)
+
+url = &quot;http://www.imdb.com/search/title?year=2017&amp;title_type=feature&amp;&quot;
+
+#Reading the HTML code from the website
+webpage = read_html(url)
+
+movies = data.frame(
+  rank = html_nodes(webpage, &#39;.text-primary&#39;)%&gt;%html_text()%&gt;%extract_numeric(),
+  title = html_nodes(webpage,&#39;.lister-item-header a&#39;)%&gt;%html_text(),
+  run_time = html_nodes(webpage,&#39; .runtime&#39;)%&gt;%html_text()%&gt;%extract_numeric(),
+  genre = gsub(&quot;\n&quot;, &quot;&quot;, html_nodes(webpage,&#39;.genre&#39;)%&gt;%html_text()),
+  primary_genre = gsub(&quot;,.*&quot;, &quot;&quot;, gsub(&quot;\n&quot;, &quot;&quot;, html_nodes(webpage,&#39;.genre&#39;)%&gt;%html_text()))
+)
+
+kable(head(movies), format = &quot;html&quot;)%&gt;%
+  kable_styling(&quot;striped&quot;)</code></pre>
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;">
+rank
+</th>
+<th style="text-align:left;">
+title
+</th>
+<th style="text-align:right;">
+run_time
+</th>
+<th style="text-align:left;">
+genre
+</th>
+<th style="text-align:left;">
+primary_genre
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+Jumanji: Welcome to the Jungle
+</td>
+<td style="text-align:right;">
+119
+</td>
+<td style="text-align:left;">
+Action, Adventure, Comedy
+</td>
+<td style="text-align:left;">
+Action
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+Blade Runner 2049
+</td>
+<td style="text-align:right;">
+164
+</td>
+<td style="text-align:left;">
+Action, Drama, Mystery
+</td>
+<td style="text-align:left;">
+Action
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+It
+</td>
+<td style="text-align:right;">
+135
+</td>
+<td style="text-align:left;">
+Horror
+</td>
+<td style="text-align:left;">
+Horror
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+Thor: Ragnarok
+</td>
+<td style="text-align:right;">
+130
+</td>
+<td style="text-align:left;">
+Action, Adventure, Comedy
+</td>
+<td style="text-align:left;">
+Action
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+Call Me by Your Name
+</td>
+<td style="text-align:right;">
+132
+</td>
+<td style="text-align:left;">
+Drama, Romance
+</td>
+<td style="text-align:left;">
+Drama
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:left;">
+Guardians of the Galaxy Vol. 2
+</td>
+<td style="text-align:right;">
+136
+</td>
+<td style="text-align:left;">
+Action, Adventure, Comedy
+</td>
+<td style="text-align:left;">
+Action
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="problem-2-creating-a-table-from-unstructured-text" class="section level2 tabset tabset-fade">
+<h3>Problem 2: Creating a Table from Unstructured Text</h3>
+<div id="problem-1" class="section level3">
+<h3>Problem</h3>
+<p>This problem is admittedly much more difficult and will test your ability to work with text data as much, if not more, than your ability to webscrape.</p>
+<p>The following link contains the transcript of the first presidential debate between Hiliary Clinton and Donald Trump. Build a table that contains both the speaker and what was said.</p>
+<p>While there is probably multiple ways to tackle this, I am going to show you how I handled it.</p>
+<p><strong>Hints</strong></p>
+<ul>
+<li>First, you will return a giant block of text. You will need to use <code>str_locate_all()</code> to return the <strong>locations</strong> of the speakers (Holt, Clinton and Trump)</li>
+<li>Using these locations, you can then extract the correct text</li>
+<li>You will need to use a for-loop to assemble the whole thing into a dataframe.</li>
+</ul>
+<p>As this is a considerably more complicated example, we will have a step by step walk through of how to solve it in the solution tab.</p>
+</div>
+<div id="solution-1" class="section level3">
+<h3>Solution</h3>
+<p><strong>Step 1: Finding the Location of these Speakers</strong></p>
+<p>Using the <code>str_locate_all()</code> function from the stringr package, you can return the <em>start</em> and <em>end</em> position of a character.</p>
+<p>So for example, if you wanted to find the start and end position of the word “HOLT”, in the following string: <code>&quot;HOLT: I am the moderator, good sir.&quot;</code>, you would say: <code>str_locate_all(string, &quot;HOLT&quot;)</code>, which would return: start = 1 and end = 4.</p>
+<pre class="r"><code>library(stringr)
+
+# new transcript source
+url=&quot;https://www.debates.org/voter-education/debate-transcripts/september-26-2016-debate-transcript/&quot;
+
+# once again we read the url
+webpage = read_html(url)
+
+# use the xpath to the container for the entire debate!
+transcript = webpage %&gt;% html_nodes(xpath= &#39;//*[@id=&quot;content-sm&quot;]&#39;) %&gt;% html_text()
+
+# We have 3 different patterns/speakers to search for 
+# which will include in our expression using the or operator &#39;|&#39;
+# str_locate_all of stringr will give the index (start and end position) of all the matches
+markers &lt;- str_locate_all(transcript, pattern = &quot;CLINTON|TRUMP|HOLT&quot;)[[1]]%&gt;%as.data.frame()
+
+head(markers)</code></pre>
+<pre><code>##   start  end
+## 1   251  254
+## 2  1526 1532
+## 3  1567 1570
+## 4  2720 2726
+## 5  4569 4572
+## 6  4744 4748</code></pre>
+<p><strong>Step 2: Extract the Name and Responses by Location</strong></p>
+<p>Now that we have the start and end position of each matched speaker in a dataframe. We can retun their names and what they said using the row numbers of the data frame we created.</p>
+<p>For example, <code>markers$start[1]</code> will return the first value in the start variable in the markers dataframe, which is 251 or H for HOLT. <code>markers$end[1]</code> will return the position 254, which is the T in HOLT.</p>
+<p>To get what each speaker said, we will need the first character <strong>past</strong> the speakers name or <code>markers$end[1] + 1</code> and the last character <strong>before</strong> for the next speakers name or <code>markers$start[2] - 1</code>.</p>
+<pre class="r"><code># how we can locate a name
+# This is the same as: substr(transcript, 251, 254)
+substr(transcript, markers$start[1], markers$end[1])</code></pre>
+<pre><code>## [1] &quot;HOLT&quot;</code></pre>
+<pre class="r"><code># how we can locate what they said
+# This is the same as: substr(transcript, 255, 1525)
+substr(transcript, markers$end[1]+1, markers$start[2]-1)</code></pre>
+<pre><code>## [1] &quot;: Good evening from Hofstra University in Hempstead, New York. I’m Lester Holt, anchor of “NBC Nightly News.” I want to welcome you to the first presidential debate.\nThe participants tonight are Donald Trump and Hillary Clinton. This debate is sponsored by the Commission on Presidential Debates, a nonpartisan, nonprofit organization. The commission drafted tonight’s format, and the rules have been agreed to by the campaigns.\nThe 90-minute debate is divided into six segments, each 15 minutes long. We’ll explore three topic areas tonight: Achieving prosperity; America’s direction; and securing America. At the start of each segment, I will ask the same lead-off question to both candidates, and they will each have up to two minutes to respond. From that point until the end of the segment, we’ll have an open discussion.\nThe questions are mine and have not been shared with the commission or the campaigns. The audience here in the room has agreed to remain silent so that we can focus on what the candidates are saying.\nI will invite you to applaud, however, at this moment, as we welcome the candidates: Democratic nominee for president of the United States, Hillary Clinton, and Republican nominee for president of the United States, Donald J. Trump. [applause]\n&quot;</code></pre>
+<p><strong>Step 3: Loop through Each Speaker to Assemble a Dataframe</strong></p>
+<p>The goal of this step is return the each speaker and what they said in a dataframe, all in the order in which they said it.</p>
+<p>We can use a loop to do this. Using the indexing technique described above, for each row number, we will return the name and comment into a one row dataframe. As you may expect, each time the for loop iterates, the row will be overwritten.</p>
+<p>To get around this, we will initiate a dataframe outside of the for loop and then append the rows to that datafame each time that we loop through.</p>
+<pre class="r"><code># initiate data frame outside of loop
+answers = data.frame()
+
+# for each element in the loop, get the name of the speaker and the content 
+for(i in 1:nrow(markers)){
+  temp = data.frame(
+            name = substr(transcript, markers$start[i], markers$end[i]),
+            comment = substr(transcript, markers$end[i]+1, markers$start[i+1]-1)
+            )
+  answers = rbind(answers, temp) # my guess is that this is the inefficient part
+}
+
+
+rm(temp)
+
+# lets get rid of the : after the speakers name as it is the first character at the 
+# beginning of each response
+
+answers$comment = gsub(&quot;: &quot;, &quot;&quot;, answers$comment)
+
+# Ok now we have the answers to the questions and the name of the respondent 
+kable(head(answers, n = 3), format = &quot;html&quot;)%&gt;%
+  kable_styling(&quot;striped&quot;)</code></pre>
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+name
+</th>
+<th style="text-align:left;">
+comment
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+HOLT
+</td>
+<td style="text-align:left;">
+Good evening from Hofstra University in Hempstead, New York. I’m Lester Holt, anchor of “NBC Nightly News.” I want to welcome you to the first presidential debate. The participants tonight are Donald Trump and Hillary Clinton. This debate is sponsored by the Commission on Presidential Debates, a nonpartisan, nonprofit organization. The commission drafted tonight’s format, and the rules have been agreed to by the campaigns. The 90-minute debate is divided into six segments, each 15 minutes long. We’ll explore three topic areas tonightAchieving prosperity; America’s direction; and securing America. At the start of each segment, I will ask the same lead-off question to both candidates, and they will each have up to two minutes to respond. From that point until the end of the segment, we’ll have an open discussion. The questions are mine and have not been shared with the commission or the campaigns. The audience here in the room has agreed to remain silent so that we can focus on what the candidates are saying. I will invite you to applaud, however, at this moment, as we welcome the candidatesDemocratic nominee for president of the United States, Hillary Clinton, and Republican nominee for president of the United States, Donald J. Trump. [applause]
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CLINTON
+</td>
+<td style="text-align:left;">
+How are you, Donald? [applause]
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HOLT
+</td>
+<td style="text-align:left;">
+Good luck to you. [applause] Well, I don’t expect us to cover all the issues of this campaign tonight, but I remind everyone, there are two more presidential debates scheduled. We are going to focus on many of the issues that voters tell us are most important, and we’re going to press for specifics. I am honored to have this role, but this evening belongs to the candidates and, just as important, to the American people. Candidates, we look forward to hearing you articulate your policies and your positions, as well as your visions and your values. So, let’s begin. We’re calling this opening segment “Achieving Prosperity.” And central to that is jobs. There are two economic realities in America today. There’s been a record six straight years of job growth, and new census numbers show incomes have increased at a record rate after years of stagnation. However, income inequality remains significant, and nearly half of Americans are living paycheck to paycheck. Beginning with you, Secretary Clinton, why are you a better choice than your opponent to create the kinds of jobs that will put more money into the pockets of American workers?
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="conclusion" class="section level2">
+<h3>Conclusion</h3>
+<p>And there you go! That’s a mild introduction to how to webscrape with R. We went over how to find the correct <strong>xpath</strong> or <strong>CSS Class</strong> to isolate what data we would like to pull back.</p>
+<p>The <code>html_node()</code> and <code>html_table()</code> can be used to pull back a clean html table into R.</p>
+<p>The <code>html_nodes()</code> and <code>html_text()</code> can be used to pull back a character vector. Using <code>data.frame()</code>, we can assemble a dataframe out of the different vectors we pull back.</p>
+<p>Finally, working with unstructured text can be tough, but through the <code>stringr</code> package, we can clean and provide structure, putting this data into a dataframe. This will allow us to perform NLP more easily later.</p>
+<p><strong>One thing to note:</strong> webpages are constantly changing and are being reworked, and web scraping is a brute force approach to retreiving data from the web. APIs tend to be more static and should be the first approach for getting data from the web.</p>
+</div>
+
+
+
+
+</section>
+
+</body>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
