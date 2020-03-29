@@ -239,7 +239,7 @@ summary {
 <div id="querying-an-apis-in-r" class="section level2">
 <h3>Querying an APIs in R</h3>
 <div id="jsonlite" class="section level3">
-<h5>jsonlite</h5>
+<h4>jsonlite</h4>
 <p>APIs oftentimes return data in the form of JSON files, which can be thought of as akin to lists in R. When this is the case (and when life is easy and you don’t need to authenicate), you can use the <code>jsonlite</code> to directly access the results.</p>
 <pre class="r"><code>library(jsonlite)
 
@@ -250,7 +250,7 @@ ditto$species$name</code></pre>
 <pre><code>## [1] &quot;ditto&quot;</code></pre>
 </div>
 <div id="api-tokens" class="section level3">
-<h5>API Tokens</h5>
+<h4>API Tokens</h4>
 <p>APIs need a mechanism to control who accesses their data and how many and what resources a user can access. This mechanism can exist in a few different forms. For example, the pokemon API restricts how many queries a user can execute to 100 per minute.</p>
 <p>Another common restriction is tokens. Tokens are something like a password to use with any given API. Later in this tutorial, you will need a token in order to access OMDB’s API.</p>
 <p>Like any other password, you really shouldn’t share it in a public forum like github (its typically against the ToS as well). To get around this, we will store it in a variable called <code>key</code>. So I don’t have to keep manually entering <code>key</code>, I typically create it in a seperate script and put that script in the <a href="https://www.atlassian.com/git/tutorials/saving-changes/gitignore">.gitignore</a>. This is just a special file that git will <strong>always</strong> ignore.</p>

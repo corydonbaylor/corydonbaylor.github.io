@@ -216,7 +216,7 @@ summary {
 <h3>Webscraping Basics in rvest</h3>
 <p>First, how do we get a webpage all the way from the internet onto our local computers. As you can guess by the name, the <code>read_html()</code> function will do this for us. Simply enter the name of the page you would like to scrape (in quotes) and put it in the function.</p>
 <div id="read_html-or-getting-the-html" class="section level3">
-<h5>read_html or Getting the HTML</h5>
+<h4>read_html or Getting the HTML</h4>
 <pre class="r"><code>library(rvest)
 read_html(&quot;https://en.wikipedia.org/wiki/2016_Summer_Olympics_medal_table&quot;)</code></pre>
 <pre><code>## {xml_document}
@@ -226,7 +226,7 @@ read_html(&quot;https://en.wikipedia.org/wiki/2016_Summer_Olympics_medal_table&q
 <p>This returns an <strong>html object</strong>, and while this technically contains all the information we need, it doesn’t really help us. Luckily, <code>rvest</code> comes with simple to use helper functions that will let us get this webpage into the right format.</p>
 </div>
 <div id="finding-a-page-element" class="section level3">
-<h5>Finding a Page Element</h5>
+<h4>Finding a Page Element</h4>
 <p>But before we go over how to use rvest’s helper functions, we need to go over how to find a particular element on a page. This will be done with the <strong>“Inspect”</strong> option in chrome.</p>
 <p>If you are looking to pull back multiple page elements you will need to find the <strong>CSS Class</strong> that applies to those elements, and if you are looking to pull back a single element, you will need its <strong>xpath</strong>.</p>
 <p>You may be thinking, what is an <strong>xpath</strong>? An xpath is a path to a particular web element. In order to find one complete the following steps (in Chrome):</p>
@@ -242,7 +242,7 @@ read_html(&quot;https://en.wikipedia.org/wiki/2016_Summer_Olympics_medal_table&q
 <p>Finding the CSS class is even easier. For the web element that you are looking to retrieve, inspect it, and see what CSS class is being applied. Insert that class name into <code>html_nodes()</code>.</p>
 </div>
 <div id="html_nodes-and-html_table" class="section level3">
-<h5>html_nodes and html_table</h5>
+<h4>html_nodes and html_table</h4>
 <p>Once you have pulled down the html and know the CSS Class or xpath that you want to use, you can retrieve it/them using <code>html_nodes()</code> or <code>html_node()</code>.</p>
 <p>In this case, we are using an <strong>xpath</strong> to pull out the table. Because we looking for <em>one</em> thing, use <code>html_node()</code> rather than <code>html_nodes()</code>, which will return elements back in a list.</p>
 <p>For our example, go to the wikipedia page and inspect the 2016 Summer Olympics medal table. Next, look for a <code>&lt;table&gt;</code> tag. Right click this and go to <strong>Copy XPath</strong>. You should get the same value as you see in the <code>html_node()</code> below.</p>
@@ -408,7 +408,7 @@ Japan (JPN)
 </table>
 </div>
 <div id="html_nodes-and-html_text" class="section level3">
-<h5>html_nodes and html_text</h5>
+<h4>html_nodes and html_text</h4>
 <p>So what if the data you are looking to pull back isn’t already in a table. What if you want to create a table from information on the webpage? In that case, <code>html_table()</code> won’t work. Instead, you will have to assemble the table yourself.</p>
 <p>Enter, <code>html_text()</code>. This function extracts the text from inside a tag. Let’s look at a quick example. First, without <code>html_text</code> then with it.</p>
 <pre class="r"><code>url = &quot;http://www.imdb.com/search/title?year=2017&amp;title_type=feature&amp;&quot;
