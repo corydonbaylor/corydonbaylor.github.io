@@ -198,14 +198,12 @@ summary {
 
 
 
-<h1 class="title toc-ignore">Tokenizing with tidytext</h1>
-<h4 class="author">Team Hanley NLP Working Group</h4>
+<h3 class="title toc-ignore">Tokenizing with tidytext</h3>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#getting-the-data">Getting the Data</a></li>
 <li><a href="#tokenizing-by-n-grams">Tokenizing by n-grams</a></li>
 <li><a href="#removing-stop-words">Removing Stop Words</a></li>
 <li><a href="#counting-n-grams">Counting n-grams</a></li>
@@ -214,20 +212,11 @@ summary {
 </ul>
 </div>
 
-<div id="getting-the-data" class="section level2">
-<h2>Getting the Data</h2>
-<p>We will be using the book Metamorphosis by Franz Kafka as our example data.</p>
-<pre class="r"><code>library(dplyr)
-library(tidytext)
-library(gutenbergr)
-library(kableExtra)
-library(tidyr)</code></pre>
-</div>
 <div id="tokenizing-by-n-grams" class="section level2">
-<h2>Tokenizing by n-grams</h2>
+<h3>Tokenizing by n-grams</h3>
 <p>Tokenization is the process of breaking your text into pieces or tokens. As noted <a href="https://nlp.stanford.edu/IR-book/html/htmledition/tokenization-1.html">here</a>, a token is “an instance of a sequence of characters in some particular document that are grouped together as a useful semantic unit for processing.” In practice, tokens often refer to words.</p>
 <div id="unigrams" class="section level3">
-<h3>Unigrams</h3>
+<h4>Unigrams</h4>
 <p>An n-gram is a contiguous sequence of n items from a sample of text. An n-gram of size 1 is called a unigram, size 2 is a bigram, and size 3 is a trigram.</p>
 <p>Here’s an example of how to tokenize by unigrams. We’ll use our text from Metamorphosis.</p>
 <pre class="r"><code># downloading metamorphasis
@@ -296,7 +285,7 @@ wyllie
 </table>
 </div>
 <div id="bigrams" class="section level3">
-<h3>Bigrams</h3>
+<h4>Bigrams</h4>
 <p>And here’s an example of tokenizing by bigrams. Notice the only argument in <code>unnest_tokens</code> that needs to change from our unigram example is <code>n =</code>. (The first argument listed here is the column name, which can be whatever you want.)</p>
 <pre class="r"><code>bigrams = meta %&gt;% unnest_tokens(bigram, text, token = &quot;ngrams&quot;, n = 2)
 
@@ -362,7 +351,7 @@ wyllie metamorphosis
 </div>
 </div>
 <div id="removing-stop-words" class="section level2">
-<h2>Removing Stop Words</h2>
+<h3>Removing Stop Words</h3>
 <p>Stop words are words that are typically more important to the grammer of a sentence rather than the meaning of a sentence. They are like helper words that help string together meaning without providing much meaning themselves.</p>
 <p>For humans, more words are needed but for NLP they add nothing. Let’s look at that last word for example.</p>
 <blockquote>
@@ -374,7 +363,7 @@ wyllie metamorphosis
 </blockquote>
 <p>As you can see, computer really only need cave man speak to get the semantic meaning of words.</p>
 <div id="how-do-we-know-if-something-is-a-stop-word" class="section level3">
-<h3>How do we know if something is a stop word?</h3>
+<h4>How do we know if something is a stop word?</h4>
 <p>As you might guess, what exactly constitutes a stop word is somewhat subjective. When thinking about defining a stop word, we need to think about generalities and scale. For example, “no” can be a really important word semantically, and for certain tasks, like sentiment analysis, <a href="https://medium.com/@limavallantin/why-is-removing-stop-words-not-always-a-good-idea-c8d35bd77214">you may want to keep certain stop words</a>, especially words like “no” or “not”. Handling these words is called <a href="https://towardsdatascience.com/sentiment-analysis-in-r-good-vs-not-good-handling-negations-2404ec9ff2ae">negation handling</a>. But we will get into that when we cover sentiment analysis.</p>
 <p>Lets use our bigram example from before. We are going to be basing our methodogly for removing stop words off of <a href="https://www.tidytextmining.com/ngrams.html#counting-and-filtering-n-grams">tidytextmining</a>. Its pretty simple and somewhat scalable.</p>
 <p>First split the ngrams into their own columns. In this case, since its bigrams, the columns will be “word1” and “word2”</p>
@@ -391,7 +380,7 @@ wyllie metamorphosis
 </div>
 </div>
 <div id="counting-n-grams" class="section level2">
-<h2>Counting n-grams</h2>
+<h3>Counting n-grams</h3>
 <p>While it may seem simple, counting frequency of n-grams (in our case bigrams) will tell us a lot about the content of the text. Let’s look at the bigram frequency of the <em>Metamorphosis</em> with and without removing stop words:</p>
 <p><strong>With Stop Words</strong></p>
 <pre class="r"><code>bigrams%&gt;%
@@ -519,7 +508,7 @@ earn money
 <p>Once we remove the stop words, we begin to generate content that is specific to our book. Interestingly, “earn money” is one of the top five bigrams in the book!</p>
 </div>
 <div id="example-trigrams-for-heart-of-darkness" class="section level2 tabset tabset-fade">
-<h2>Example: Trigrams for Heart of Darkness</h2>
+<h3>Example: Trigrams for Heart of Darkness</h3>
 <p>Overall, this tutorial is simply meant to acquaint you with the basic premises of preparing text data for analysis, specifically in the tidytext universe.</p>
 <p>Now, try and repeat the above steps for “Heart of Darknes” by Joseph Conrad. But this time, lets use trigrams instead of bigrams. <strong>The Gutenberg id is 219</strong>.</p>
 <div id="problem" class="section level3">
@@ -661,7 +650,7 @@ bones marlow sat
 </div>
 </div>
 <div id="conclusion" class="section level2">
-<h2>Conclusion</h2>
+<h3>Conclusion</h3>
 <p>As you can see, handling text data with tidytext is very simple. The big advantage of using this package is that it works with other tidyverse functions, and this frame work can even be used for some analytic tasks such as sentiment analysis and topic modeling.</p>
 </div>
 
