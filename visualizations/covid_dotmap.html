@@ -175,23 +175,24 @@ summary {
 
 
 
-<h1 class="title toc-ignore">COVID-19 Dot Map</h1>
+<h2 class="title toc-ignore">COVID-19 Dot Map</h2>
 
 </div>
+<p>The unseen nature of the COVID-19 can make the virus feel even more threatening. Data visualization can be one tool that may lead to greater understanding and demystification of what is happening. In that vein, I created a dot map showing the change in the number of cases of COVID 19 in the DMV region.</p>
+
+<img src ="images/covid19_dot_map.gif"></img>
 
 <div id="TOC">
-<ul>
+<!-- <ul>
 <li><a href="#finding-a-time-series">Finding a Time Series</a></li>
 <li><a href="#creating-a-dotmap">Creating a Dotmap</a></li>
 <li><a href="#pulling-the-final-set-together">Pulling the Final Set Together</a></li>
 <li><a href="#making-the-plot">Making the Plot</a></li>
 <li><a href="#animating-the-whole-thing">Animating the Whole Thing</a></li>
-</ul>
+</ul> -->
 </div>
-
-<p>The unseen nature of the COVID-19 can make the virus feel even more threatening. Data visualization can be one tool that may lead to greater understanding and demystification of what is happening. In that vein, I created a dot map showing the change in the number of cases of COVID 19 in the DMV region.</p>
 <div id="finding-a-time-series" class="section level2">
-<h2>Finding a Time Series</h2>
+<h3>Finding a Time Series</h3>
 <p>We will be using gganimate to stitch together a gif (which for the record is pronounced like the peanut butter) of the change in COVID-19 in the DMV region over time.</p>
 <p><code>gganimate</code> creates a gif by creating a sequence of plots and stitching them together, kind of like a flipbook. For more information on how this works, check out my post on making a <a href="https://corydonbaylor.github.io/visualizations/barchart_race.html">barchart race</a> or <a href="www.gganimate.com">gganimate.com</a>.</p>
 <p>We will need daily COVID-19 by county to create a sequence. Luckily, we can find that data at <a href="https://usafacts.org/visualizations/coronavirus-covid-19-spread-map/">usafacts.org</a>, which a nonprofit organization founded by Steve Ballmer.</p>
@@ -309,7 +310,7 @@ baltimore, maryland
 </table>
 </div>
 <div id="creating-a-dotmap" class="section level2">
-<h2>Creating a Dotmap</h2>
+<h3>Creating a Dotmap</h3>
 <p>Now for the interesting part, creating a dot map. For more info on the method I am using, <a href="https://taraskaduk.com/2017/11/26/pixel-maps/">go here</a>.</p>
 <p>To make this map, we will create a square grid of dots over DMV and then remove the all the dots that don’t fall directly over DC, Maryland, or Virginia. First, lets create an evenly spaced grid of dots using lats and longs.</p>
 <pre class="r"><code># DC, Maryland and Virginia sit between the 36th and 40th latitude
@@ -454,7 +455,7 @@ lee, virginia
 </table>
 </div>
 <div id="pulling-the-final-set-together" class="section level2">
-<h2>Pulling the Final Set Together</h2>
+<h3>Pulling the Final Set Together</h3>
 <p>As we mentioned before, <code>gganimate</code> is going to create many plots and then stitch them together into a gif. Basically, for <strong>each day</strong> we are going to create a dot map and then put them together like a flip book. So we will need to create a time series where every single day has all the data needed to create a map.</p>
 <p>This will actually be quite simple. Just join the dots to the dmv_ts.</p>
 <pre class="r"><code># Next we need to join the time series to our dot matrix
@@ -739,7 +740,7 @@ lee, virginia
 </table>
 </div>
 <div id="making-the-plot" class="section level2">
-<h2>Making the Plot</h2>
+<h3>Making the Plot</h3>
 <p>Creating the actual plot is pretty easy.</p>
 <p>Just create a scatter plot of the lats and longs. Because they are evenly spaced and only include dots over Virginia, Maryland and DC, this will create a grid of dots over those states. The size of the dots will be the number of cases, and the colors will be which state they are over.</p>
 <p>When creating the <code>ggplot</code> portion of this visualization, don’t worry about the time series aspect of this. Everyday will just be plotted on top of eachother for now.</p>
@@ -793,7 +794,7 @@ dot_map</code></pre>
 <pre><code>DC Cases: {format(dots_final[dots_final$Date == closest_state,]$`district of columbia`[1], big.mark = &#39;,&#39;)}</code></pre>
 </div>
 <div id="animating-the-whole-thing" class="section level1">
-<h1>Animating the Whole Thing</h1>
+<h3>Animating the Whole Thing</h3>
 <p>Finally, the actual animation part.</p>
 <p>This is even simpler than creating the <code>ggplot</code>. Just specify which variable should be used to sequence the data (surprise its still “Date”), and specify a few things about how you want the gif to render.</p>
 <p>If you are testing, I would recommend lowering the number of nframes. This will create less plots, which in turn will lower the rendering time.</p>
@@ -818,7 +819,10 @@ anim_save(&quot;covid19_dot_map.gif&quot;)</code></pre>
 
 
 
-
+<button onclick="topFunction()" id="top_button" title="Go to top">
+    <!-- <i class="fas fa-chevron-up" style= "font-size: 1.15em;"> -->
+            <span class="glyphicon glyphicon-chevron-up"></span>
+    </button>
 </section>
 <script>
 
@@ -859,6 +863,6 @@ $(document).ready(function () {
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
-
+<script src="../js/scroll_top.js"></script>
 </body>
 </html>
