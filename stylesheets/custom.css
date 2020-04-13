@@ -225,10 +225,14 @@ a {
 
 .card-text{
   font-size: 11px;
-  margin:5px
 }
 .card-header{
   font-size: 13px;
+}
+.cf-custom{
+  font-size: 10px;
+  border-top: 1px;
+  margin-top: -15px;
 }
 
 /*
