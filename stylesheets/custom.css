@@ -210,18 +210,22 @@ a {
 
 
 /* image highlights  */
-    
-.img-outer
+  
+.img-fit{
+  height: 200px !important;
+  object-fit: cover !important;
+}
   .image-link{
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.2);
-    display: inline-block;
-    border-style: solid;
     margin: 2px;
   }
   .image-link img:hover {
     filter: alpha(opacity=80);
     opacity: .8;
+  }
+
+.card-text{
+  font-size: 11px;
+  margin:5px
 }
 
 /*
