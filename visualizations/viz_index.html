@@ -4,18 +4,22 @@
     <meta charset="UTF-8">
     <title>corydon.io</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link rel="stylesheet" type="text/css" href="../stylesheets/normalize.css" media="screen"> -->
+    <link rel="stylesheet" type="text/css" href="../stylesheets/normalize.css" media="screen">
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="../stylesheets/stylesheet.css" media="screen">
     <!-- <link rel="stylesheet" type="text/css" href="../stylesheets/github-light.css" media="screen"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="../stylesheets/custom.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap.min.css" media="screen">
+    <!-- <link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap.min.css" media="screen"> -->
 
 
   </head>
 
   <body>
-        <div class = "navbar" style="background-color:#333;">
+        <div class = "navbar-custom" style="background-color:#333;">
             <ul class = "navbar-inner">
                 <li><a class="active" href="../index.html">Home</a></li>
                 <li><a href="../analytics/analytics.html">Analytics</a></li>
@@ -25,38 +29,77 @@
         <section class="main-content">
           <h3> Visualizations </h3>
           <p>One of the most accessible (and fun) parts of data science is certainly the data visualization.
-            As an avid fan of R, I enjoy seeing how far I can push ggplot2. Check out two of my visualizations: a 
-            sentiment analysis "heat calendar", so to speak, of Trump's tweets. The other is an implementation of
-            the bar chart races that were popular on reddit not too long ago. 
+            As an avid fan of R, I enjoy seeing how far I can push ggplot2. 
           </p>
+          <p>
+            Click the below cards for tutorials on different visualizations!
+          </p>
+          <div class="album py-5">
+              <div class="container">
+                <div class="row">
 
-                    <div class = "image-link">
-                        <a href='barchart_race.html'>
-                            <img src="images/barchart.PNG", width="225px"></a>
-                    </div> -->
+                    <div class="col-md-4">
+                            <div class="card mb-4 box-shadow">
+                                    <div class = "image-link">
+                                            <a href='covid_dotmap.html'>
+                                                <img class = "img-fit" src="images/covid-still.PNG"></a>
+                                        </div>
+                                <div class="card-body">
+                                <p class="card-text">Learn to make a dotmap with the maps package and gganimate</p>
+                                <!-- <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                    </div>
+                                    <small class="text-muted">9 mins</small>
+                                </div> -->
+                                </div>
+                            </div>
+                            </div>
 
-                    <div class = "image-link">
-                        <a href='twitter_viz.html'>
-                            <img src="images/calendar.png", width="225px"></a>
+                    <div class="col-md-4">
+                            <div class="card mb-4 box-shadow">
+                                    <div class = "image-link">
+                                            <a href='twitter_viz.html'>
+                                                <img class = "img-fit" src="images/calendar.png"></a>
+                                        </div>
+                                <div class="card-body">
+                                <p class="card-text">Create a sentiment calendar from twitter data using rtweet and ggplot2</p>
+                                <!-- <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                                    </div>
+                                    <small class="text-muted">9 mins</small>
+                                </div> -->
+                                </div>
+                            </div>
+                            </div>
+
+
+                  <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                            <div class = "image-link">
+                                    <a href='barchart_race.html'>
+                                        <img class = "img-fit" src="images/barchart.PNG"></a>
+                                </div>
+                      <div class="card-body">
+                        <p class="card-text">Learn to make a barchart race with ggplot2 and gganimate</p>
+                        <!-- <div class="d-flex justify-content-between align-items-center">
+                          <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                          </div>
+                          <small class="text-muted">9 mins</small>
+                        </div> -->
+                      </div>
                     </div>
+                  </div>
 
 
- 
-                  <div class = "image-link">
-                      <a href='covid_dotmap.html'>
-                          <img src="images/covid-still.PNG", width="250px"></a>
-                    </div>
 
-
+                </div>
+              </div>
+            </div>
 
             <br>
-    <p>
-      If you are interested in the code for how to make these visualizations check 
-      out my <a href="https://github.com/corydonbaylor">github</a>. Specifically, the 
-      barchart race can be found <a href="https://github.com/corydonbaylor/twitter-viz">here</a>, 
-      and the twitter heat calendar can be found 
-      <a href="https://github.com/corydonbaylor/barchart-race">here</a>. 
-    </p>
 </section>
 </body>
 </html>
