@@ -227,6 +227,9 @@ a {
   font-size: 11px;
   margin:5px
 }
+.card-header{
+  font-size: 13px;
+}
 
 /*
 Creating Subsections
