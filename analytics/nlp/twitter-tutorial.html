@@ -4,6 +4,17 @@
 
 <head>
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165584278-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-165584278-1');
+</script>
+
+
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
@@ -14,29 +25,24 @@
 
 <title>Twitter Data with rtweet</title>
 
-<!-- Depedencies -->
-
-<!-- jquery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="../../stylesheets/bootstrap.min.css" rel="stylesheet" />
-<script src = "../../js/scroller.js"></script>
-<script src="../../js/bootstrap-js/bootstrap.min.js"></script>
-<script src="../../js/shim/html5shiv.min.js"></script>
-<script src="../../js/shim/respond.min.js"></script>
-<script src="../../js/navigation-1.1/tabsets.js"></script>
-<link href="../../stylesheets/glyphicon.css" rel="stylesheet">
+<link href="../stylesheets/bootstrap.min.css" rel="stylesheet" />
+<script src = "../js/scroller.js"></script>
+<script src="../js/bootstrap-js/bootstrap.min.js"></script>
+<script src="../js/shim/html5shiv.min.js"></script>
+<script src="../js/shim/respond.min.js"></script>
+<script src="../js/navigation-1.1/tabsets.js"></script>
 
-<link href="../../js/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="../../js/highlightjs-9.12.0/highlight.js"></script>
-
+<link href="../js/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="../js/highlightjs-9.12.0/highlight.js"></script>
 
 
-<script src="../../js/kePrint-0.0.1/kePrint.js"></script>
-<link rel="stylesheet" type="text/css" href="../../stylesheets/stylesheet.css" media="screen">
-<link rel="stylesheet" type="text/css" href="../../stylesheets/github-light.css" media="screen">
-<link rel="stylesheet" type="text/css" href="../../stylesheets/custom.css" media="screen">
 
+<script src="../js/kePrint-0.0.1/kePrint.js"></script>
+<link rel="stylesheet" type="text/css" href="../stylesheets/stylesheet.css" media="screen">
+<link rel="stylesheet" type="text/css" href="../stylesheets/github-light.css" media="screen">
+<link rel="stylesheet" type="text/css" href="../stylesheets/custom.css" media="screen">
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -183,14 +189,6 @@ summary {
 <body>
 
 
-    <div class = "navbar-custom" style="background-color:#333;">
-        <ul class = "navbar-inner">
-            <li><a class="active" href="../../index.html">Home</a></li>
-          <li><a href="../analytics.html">Analytics</a></li>
-          <li><a href="../../visualizations/viz_index.html">Visualizations</a></li>
-        </ul>
-      </div>
-
 
 <section class= "main-content">
 
@@ -216,17 +214,17 @@ summary {
 
 <div id="getting-started" class="section level2">
 <h3>Getting Started</h3>
-<p>The vast majority of the pain that comes with pulling twitter data is getting access to and protecting your API keys. If you are unfamiliar with API keys, check out our tutorial on APIs. If you are just working on your computer, you will not need to do anything special to protect your keys beyond whatever you typically do to protect sensitive files. But since we are working in a shared environment (github), we will need to protect our keys.</p>
+<p>The vast majority of the pain that comes with pulling Twitter data is getting access to and protecting your API keys. If you are unfamiliar with API keys, check out our tutorial on APIs. If you are just working on your computer, you will not need to do anything special to protect your keys beyond whatever you typically do to protect sensitive files. But since we are working in a shared environment (GitHub), we will need to protect our keys.</p>
 <div id="getting-a-developer-account" class="section level3">
 <h4>Getting a Developer Account</h4>
-<p>Unfortunately, creating a twitter developer account is a bit of an involved process. Involved, in the sense that it takes awhile to do, not that its a difficult thing to do. Since it is a mostly point and click process that does not lend itself well to text, checkout the below youtube video on how to make one. Alternatively, you can just go to <a href="https://developer.twitter.com/" class="uri">https://developer.twitter.com/</a> and follow the steps.</p>
+<p>Unfortunately, creating a Twitter Developer account is a bit of an involved process. Involved, in the sense that it takes awhile to do, not that it's a difficult thing to do. Since it is a mostly point and click process that does not lend itself well to text, check out the below YouTube video on how to make one. Alternatively, you can just go to <a href="https://developer.twitter.com/" class="uri">https://developer.twitter.com/</a> and follow the steps.</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/2o_qt9cXicM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
 </iframe>
 </div>
 <div id="saving-credentials-in-a-.gitignore" class="section level3">
 <h4>Saving Credentials in a .gitignore</h4>
 <p>After finally getting your credentials, you need to protect them. If you are just working locally on your computer, this is easy. Just do whatever you usually do to protect complicated passwords. However, if you are working on a git project (like this one), then you need to do something extra.</p>
-<p>Luckily, the process is very simple. (1) Save your credentials in a different script and (2) add that script into your .gitignore, and then (3) add that script into the .gitignore.</p>
+<p>Luckily, the process is very simple. (1) Save your credentials in a different script, (2) add that script into your .gitignore, and then (3) add that script into the .gitignore.</p>
 <p><strong>Save your credentials into a script called keys.R</strong></p>
 <pre><code># twitter
 twitter_api_key = &quot;sample_api_key&quot;
@@ -235,19 +233,19 @@ twitter_access_token = &quot;sample_token&quot;
 twitter_access_token_secret = &quot;sample_secret_token&quot;
 </code></pre>
 <p><strong>Create a .gitignore file</strong></p>
-<p>This part is a little more complicated than you may expect because you are just creating a file. But I think the most reproducible way is through git bash. In the root directory of your project, open up bash (right click and press “Git Bash Here”), and write the following code: <code>touch .gitignore</code>. This will create a new file with the <code>.gitignore</code> file extension.</p>
+<p>This part is a little more complicated than you may expect because you are just creating a file. But I think the most reproducible way is through Git Bash. In the root directory of your project, open up bash (right click and press “Git Bash Here”), and write the following code: <code>touch .gitignore</code>. This will create a new file with the <code>.gitignore</code> file extension.</p>
 <p><strong>Add script into your .gitignore and then call it into your project</strong> </p>
-<p>Just open up the .gitignore (notepad works fine), and add keys.R into the .gitignore file.</p>
-<p>Now if you are simply just writing <code>keys.R</code> into the file, than it has to be in the same directory. There are a bunch of different options for <a href="https://www.atlassian.com/git/tutorials/saving-changes/gitignore">.gitignore</a>. Finally, make sure that you call the keys script into your project so that the keys are in your environment.</p>
+<p>Just open up the .gitignore (Notepad works fine), and add keys.R into the .gitignore file.</p>
+<p>Now if you are simply writing <code>keys.R</code> into the file, then it has to be in the same directory. There are a bunch of different options for <a href="https://www.atlassian.com/git/tutorials/saving-changes/gitignore">.gitignore</a>. Finally, make sure that you call the keys script into your project so that the keys are in your environment.</p>
 </div>
 </div>
 <div id="rtweet" class="section level2">
 <h3>rtweet</h3>
-<p>We have offically passed the difficult part of the process. From here on out, it is very smooth sailing.</p>
-<p><code>rtweet</code> is a <a href="rtweet.info">package</a> designed to interact with twitter’s API. It is tidyverse ready meaning that its API calls return a data.frame. This is really convienient if your workflow includes things like <code>dplyr</code> or <code>tidytext</code>.</p>
+<p>We have officially passed the difficult part of the process. From here on out, it is very smooth sailing.</p>
+<p><code>rtweet</code> is a <a href="rtweet.info">package</a> designed to interact with Twitter’s API. It is tidyverse ready, meaning that its API calls return a data.frame. This is really convienient if your workflow includes things like <code>dplyr</code> or <code>tidytext</code>.</p>
 <div id="creating-a-token" class="section level3">
 <h4>Creating a Token</h4>
-<p>Creating a token, which is what lets twitter know that you are allowed to access twitter, is very easy with <code>rtweet</code>. Just plug in your credentials as a string to the appropriate arguement. Since this is a shared environment, I am calling a script called <code>keys.R</code> that simply just declares the keys as varaibles.</p>
+<p>Creating a token, which is what lets Twitter know that you are allowed to access Twitter, is very easy with <code>rtweet</code>. Just plug in your credentials as a string to the appropriate arguement. Since this is a shared environment, I am calling a script called <code>keys.R</code> that simply declares the keys as varaibles.</p>
 <pre class="r"><code>library(rtweet)
 source(&quot;../keys.R&quot;)
 
@@ -261,7 +259,7 @@ twitter_token &lt;- create_token(
 </div>
 <div id="retrieving-topics" class="section level3">
 <h4>Retrieving Topics</h4>
-<p>Retreiving a topic is very easy in rtweet. For example:</p>
+<p>Retrieving a topic is very easy in rtweet. For example:</p>
 <pre class="r"><code>library(kableExtra)
 library(dplyr)
 
@@ -292,7 +290,7 @@ akdm_bot
 </tr>
 </tbody>
 </table>
-<p>What you writing is being passed directly into the q of the API call. This means you can take full advantage of all the arguments in the API. Check out the documentation to look at <a href="https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets">everything you can do</a>.</p>
+<p>What you're writing is being passed directly into the q of the API call. This means you can take full advantage of all the arguments in the API. Check out the documentation to look at <a href="https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets">everything you can do</a>.</p>
 <p>For example, if we wanted to filter the above query to just verified users, we would add <code>filter:verified</code>:</p>
 <pre class="r"><code>search_tweets(q = &quot;datascience filter:verified&quot;, n = 1)%&gt;%
   select(screen_name, text)%&gt;%
@@ -348,7 +346,7 @@ xaelbot
 </tr>
 </tbody>
 </table>
-<p>A few notes about the limitations of the API. Because you (most likely) not paying for access to twitter’s data, there is a limit to how many tweets you can pull back:</p>
+<p>A few notes about the limitations of the API. Because you (most likely) are not paying for access to Twitter’s data, there is a limit to how many tweets you can pull back:</p>
 <ul>
 <li>Only returns data from the past 6-9 days</li>
 <li>Cannot return more than 18,000 tweets</li>
@@ -426,7 +424,7 @@ TheRock
 </div>
 <div id="solution" class="section level3">
 <h3>Solution</h3>
-<p>Due to the simplicity of the <code>rtweet</code> package, retrieving the data isn’t all that invovled. Simply use the <code>get_timeline()</code> function and boom, you got the data.</p>
+<p>Due to the simplicity of the <code>rtweet</code> package, retrieving the data isn’t all that involved. Simply use the <code>get_timeline()</code> function and boom, you got the data.</p>
 <pre class="r"><code>rock = get_timeline(&quot;therock&quot;, n =100)</code></pre>
 <p>Now we just need to put it into a chart. I like the <code>theme_minimal()</code> function from ggplot for a simple and professional look.</p>
 <pre class="r"><code>library(scales)
@@ -455,7 +453,7 @@ ggplot(data = rock)+
 <div id="problem-1" class="section level3">
 <h3>Problem</h3>
 <p>Now let us enter the terrifying world of regex. Specifically when it comes to cleaning up tweets.</p>
-<p>For our next example, lets pull all the <strong>popular</strong> tweets using with the hashtag #rstats and then clean out all the hashtags and carriage returns that come with it.</p>
+<p>For our next example, let's pull all the <strong>popular</strong> tweets with the hashtag #rstats and then clean out all the hashtags and carriage returns that come with it.</p>
 <p><strong>Hint</strong> Personally, I think this tests your googling ability much more than than your mastery of the package. I used the following <a href="https://stackoverflow.com/questions/51947268/remove-hashtags-from-beginning-and-end-of-tweets-in-r">stackoverflow</a> as the basis of my response.</p>
 </div>
 <div id="solution-1" class="section level3">
@@ -481,7 +479,7 @@ text</code></pre>
 </div>
 <div id="conclusion" class="section level2">
 <h3>Conclusion</h3>
-<p>This is just a taste of the all the different things that the <code>rtweet</code> can do. Most of the other functions in this package are just helper functions for searching for tweets, but you can also post tweets or slid into those DMs using this package as well.</p>
+<p>This is just a taste of all the different things that <code>rtweet</code> can do. Most of the other functions in this package are just helper functions for searching for tweets, but you can also post tweets or slide into those DMs using this package as well.</p>
 </div>
 
 

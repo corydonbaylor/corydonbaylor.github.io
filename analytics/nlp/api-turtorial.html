@@ -4,6 +4,17 @@
 
 <head>
 
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165584278-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-165584278-1');
+</script>
+
+
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
@@ -14,30 +25,24 @@
 
 <title>APIs in R</title>
 
-<!-- Depedencies -->
-
-<!-- jquery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="../../stylesheets/bootstrap.min.css" rel="stylesheet" />
-<script src = "../../js/scroller.js"></script>
-<script src="../../js/bootstrap-js/bootstrap.min.js"></script>
-<script src="../../js/shim/html5shiv.min.js"></script>
-<script src="../../js/shim/respond.min.js"></script>
-<script src="../../js/navigation-1.1/tabsets.js"></script>
+<link href="../stylesheets/bootstrap.min.css" rel="stylesheet" />
+<script src = "../js/scroller.js"></script>
+<script src="../js/bootstrap-js/bootstrap.min.js"></script>
+<script src="../js/shim/html5shiv.min.js"></script>
+<script src="../js/shim/respond.min.js"></script>
+<script src="../js/navigation-1.1/tabsets.js"></script>
 
-<link href="../../js/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="../../js/highlightjs-9.12.0/highlight.js"></script>
-<link href="../../stylesheets/glyphicon.css" rel="stylesheet">
-
+<link href="../js/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="../js/highlightjs-9.12.0/highlight.js"></script>
 
 
-<script src="../../js/kePrint-0.0.1/kePrint.js"></script>
-<link rel="stylesheet" type="text/css" href="../../stylesheets/stylesheet.css" media="screen">
-<link rel="stylesheet" type="text/css" href="../../stylesheets/github-light.css" media="screen">
-<link rel="stylesheet" type="text/css" href="../../stylesheets/custom.css" media="screen">
 
-
+<script src="../js/kePrint-0.0.1/kePrint.js"></script>
+<link rel="stylesheet" type="text/css" href="../stylesheets/stylesheet.css" media="screen">
+<link rel="stylesheet" type="text/css" href="../stylesheets/github-light.css" media="screen">
+<link rel="stylesheet" type="text/css" href="../stylesheets/custom.css" media="screen">
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -183,19 +188,7 @@ summary {
 
 <body>
 
-
-    <div class = "navbar-custom" style="background-color:#333;">
-        <ul class = "navbar-inner">
-            <li><a class="active" href="../../index.html">Home</a></li>
-          <li><a href="../analytics.html">Analytics</a></li>
-          <li><a href="../../visualizations/viz_index.html">Visualizations</a></li>
-        </ul>
-      </div>
-
-
 <section class= "main-content">
-
-
 
 <div class="fluid-row" id="header">
 
@@ -208,7 +201,7 @@ summary {
 <div id="TOC">
 <ul>
 <li><a href="#what-is-an-api">What is an API?</a></li>
-<li><a href="#querying-an-apis-in-r">Querying an APIs in R</a></li>
+<li><a href="#querying-an-apis-in-r">Querying APIs in R</a></li>
 <li><a href="#problem-1-building-a-pokemon-dataset">Problem 1: Building a Pokemon Dataset</a></li>
 <li><a href="#problem-2-making-a-movie-dataset">Problem 2: Making a Movie Dataset</a></li>
 <li><a href="#conclusion">Conclusion</a></li>
@@ -217,11 +210,11 @@ summary {
 
 <div id="what-is-an-api" class="section level2">
 <h3>What is an API?</h3>
-<p>An API stands for Application Program Interface, which may sound complicated, but all it is is a way for different programs to talk to each other. In this tutorial, we will go over a particular subset of APIs called RESTful APIs, which is simply a design pattern or type of APIs that is designed to be easy to use.</p>
+<p>API stands for Application Program Interface, which may sound complicated, but all it is is a way for different programs to talk to each other. In this tutorial, we will go over a particular subset of APIs called RESTful APIs, which is simply a design pattern or type of APIs that is designed to be easy to use.</p>
 <p>But before we go over RESTful APIs in particular, we need to define what makes an API an API. Prepare yourself for some jargon.</p>
 <ul>
-<li><strong>Client</strong>: a client is the program or person who is using the API. So if you made a shiny app that used an API, than your shiny app would be the client. If you built a script than you or that script would be the client.</li>
-<li><strong>Resource</strong>: this is the information you are trying to pull back with your API. In our example below, you will be pulling back information on Pokemon, so the pokemon is the resource. Keep in mind that each resource will have a unique identifier.</li>
+<li><strong>Client</strong>: a client is the program or person who is using the API. So if you made a shiny app that used an API, than your shiny app would be the client. If you built a script then you or that script would be the client.</li>
+<li><strong>Resource</strong>: this is the information you are trying to pull back with your API. In our example below, you will be pulling back information on Pokemon, so the Pokemon is the resource. Keep in mind that each resource will have a unique identifier.</li>
 </ul>
 <p>So using the technical language we have learned above, we can think of an API as a way for a <strong>client</strong> to pull <strong>resources</strong> from a server.</p>
 <div id="how-can-we-interact-with-an-api" class="section level3">
@@ -229,9 +222,9 @@ summary {
 <p>When we use an API to interact with a resource, we are making a <strong>request</strong> to a server. <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods">There are many different types of requests</a> that we could make, but we will go through the two most common here.</p>
 <ul>
 <li><code>GET</code>: This request is for <strong>getting</strong> information from a server about a resource. As far as data analysis goes, this is likely the only way we will be interacting with a server</li>
-<li><code>POST</code>: This request is for <strong>posting</strong> information to a specified resource. For example, you could post a tweet using an API. This is how twitter bots operate.</li>
+<li><code>POST</code>: This request is for <strong>posting</strong> information to a specified resource. For example, you could post a tweet using an API. This is how Twitter bots operate.</li>
 </ul>
-<p>Let’s do our first <code>GET</code> request now, but using our browser as a client instead of code. Click this <a href="https://pokeapi.co/api/v2/pokemon/ditto">link</a>. You should see a bunch of unintelligible text. This is response from our <code>GET</code> request. What’s more important (and hopefully a bit demystifying) is the url. Let’s take a closer look:</p>
+<p>Let’s do our first <code>GET</code> request now, but using our browser as a client instead of code. Click this <a href="https://pokeapi.co/api/v2/pokemon/ditto">link</a>. You should see a bunch of unintelligible text. This is the response from our <code>GET</code> request. What’s more important (and hopefully a bit demystifying) is the url. Let’s take a closer look:</p>
 <p><code>https://pokeapi.co/api/v2/pokemon/ditto</code></p>
 <p>What we pulled back was some information about the pokemon <code>ditto</code>, and as you can see, the last part of that url is the word <code>ditto</code>. What if we were to change this to <code>pikachu</code>. In that case, we would get information back about <code>pikachu</code>.</p>
 <p>The best part of APIs is that they use a common design pattern to make different requests. That way requesting on pikachu versus ditto only means changing one thing.</p>
@@ -239,14 +232,14 @@ summary {
 <div id="what-is-a-restful-api" class="section level3">
 <h3>What is a RESTful API?</h3>
 <p>REST stands for <strong>RE</strong>presentional <strong>S</strong>tate <strong>T</strong>ransfer. Make sense? No? We can break that down further.</p>
-<p>The state of resources on the web is constantly changing. How many followers a twitter user has, for example, changes all the time. What a RESTful API does then is provide a <em>representation</em> of the <em>state</em> of a particular resource at any given moment. If the resource is a twitter user, than the state of the resource could be things like its follower count, number of tweets, or favorited tweets.</p>
+<p>The state of resources on the web is constantly changing. How many followers a Twitter user has, for example, changes all the time. What a RESTful API does then is provide a <em>representation</em> of the <em>state</em> of a particular resource at any given moment. If the resource is a Twitter user, then the state of the resource could be things like its follower count, number of tweets, or favorited tweets.</p>
 </div>
 </div>
 <div id="querying-an-apis-in-r" class="section level2">
-<h3>Querying an APIs in R</h3>
+<h3>Querying APIs in R</h3>
 <div id="jsonlite" class="section level3">
 <h4>jsonlite</h4>
-<p>APIs oftentimes return data in the form of JSON files, which can be thought of as akin to lists in R. When this is the case (and when life is easy and you don’t need to authenicate), you can use the <code>jsonlite</code> to directly access the results.</p>
+<p>APIs often return data in the form of JSON files, which can be thought of as akin to lists in R. When this is the case (and when life is easy and you don’t need to authenticate), you can use <code>jsonlite</code> to directly access the results.</p>
 <pre class="r"><code>library(jsonlite)
 
 # this will return a list with information about ditto
@@ -259,18 +252,17 @@ ditto$species$name</code></pre>
 <h4>API Tokens</h4>
 <p>APIs need a mechanism to control who accesses their data and how many and what resources a user can access. This mechanism can exist in a few different forms. For example, the pokemon API restricts how many queries a user can execute to 100 per minute.</p>
 <p>Another common restriction is tokens. Tokens are something like a password to use with any given API. Later in this tutorial, you will need a token in order to access OMDB’s API.</p>
-<p>Like any other password, you really shouldn’t share it in a public forum like github (its typically against the ToS as well). To get around this, we will store it in a variable called <code>key</code>. So I don’t have to keep manually entering <code>key</code>, I typically create it in a seperate script and put that script in the <a href="https://www.atlassian.com/git/tutorials/saving-changes/gitignore">.gitignore</a>. This is just a special file that git will <strong>always</strong> ignore.</p>
-<p>Now that we have an API Key, lets take a look at how OMDB’s url to see how it fits in:</p>
+<p>Like any other password, you really shouldn’t share it in a public forum like GitHub (it's typically against the ToS as well). To get around this, we will store it in a variable called <code>key</code>. So I don’t have to keep manually entering <code>key</code>, I typically create it in a separate script and put that script in the <a href="https://www.atlassian.com/git/tutorials/saving-changes/gitignore">.gitignore</a>. This is just a special file that git will <strong>always</strong> ignore.</p>
+<p>Now that we have an API Key, let's take a look at OMDB’s url to see how it fits in:</p>
 <p><code>http://omdbapi.com/?apikey=&lt;&lt;YOUR KEY GOES HERE&gt;&gt;&amp;t=&lt;&lt;MOVIE TITLE GOES HERE&gt;&gt;</code></p>
-<p>Pretty simple. Put your api key after the part that says <code>?apikey=</code>.</p>
+<p>Pretty simple. Put your API key after the part that says <code>?apikey=</code>.</p>
 </div>
 </div>
-
 <div id="problem-1-building-a-pokemon-dataset" class="section level2 tabset tabset-fade">
 <h3>Problem 1: Building a Pokemon Dataset</h3>
 <div id="problem" class="section level3">
 <h3>Problem</h3>
-<p>Using the pokemon API from above, build a data frame that includes the name, height, weight, base experiance, and primary type for at least four pokemon.</p>
+<p>Using the Pokemon API from above, build a dataframe that includes the name, height, weight, base experiance, and primary type for at least four pokemon.</p>
 <p><strong>Hints</strong></p>
 <ul>
 <li>Use <code>fromJSON()</code> to pull back</li>
@@ -281,7 +273,7 @@ ditto$species$name</code></pre>
 </div>
 <div id="solution" class="section level3">
 <h3>Solution</h3>
-<p>There will definitely be many different ways to accomplish this but I will use a combination of a <code>for loop</code>, <code>append()</code>, and <code>paste0()</code></p>
+<p>There will definitely be many different ways to accomplish this, but I will use a combination of a <code>for loop</code>, <code>append()</code>, and <code>paste0()</code></p>
 <pre class="r"><code>library(jsonlite)
 library(kableExtra)
 library(dplyr)
@@ -413,12 +405,11 @@ flying
 </table>
 </div>
 </div>
-
 <div id="problem-2-making-a-movie-dataset" class="section level2 tabset tabset-fade">
 <h3>Problem 2: Making a Movie Dataset</h3>
 <div id="problem-1" class="section level3">
 <h3>Problem</h3>
-<p><a href="http://www.omdbapi.com/apikey.aspx">The Open Movie Database</a> has an API that allows users to pull data on up to 1,000 films a day for free. After you receive the API key in an email, activate the key following the link in the email. Then make a data frame that contains the title, year, MPAA rating, runtime, genre, and actors for a few of your favorite movies!</p>
+<p><a href="http://www.omdbapi.com/apikey.aspx">The Open Movie Database</a> has an API that allows users to pull data on up to 1,000 films a day for free. After you receive the API key in an email, activate the key following the link in the email. Then make a dataframe that contains the title, year, MPAA rating, runtime, genre, and actors for a few of your favorite movies!</p>
 </div>
 <div id="solution-1" class="section level3">
 <h3>Solution</h3>
@@ -569,7 +560,7 @@ Kang-ho Song, Sun-kyun Lee, Yeo-jeong Jo, Woo-sik Choi
 </div>
 <div id="conclusion" class="section level2">
 <h3>Conclusion</h3>
-<p>APIs are designed to be a stable way for scripts, programs and applications to interact with eachother. In general, if you are text mining, you will just need to <code>GET</code> requests from an API as you are hoping to <em>get</em> data.</p>
+<p>APIs are designed to be a stable way for scripts, programs, and applications to interact with each other. In general, if you are text mining, you will just need to <code>GET</code> requests from an API as you are hoping to <em>get</em> data.</p>
 <p>Since most data in APIs comes in the form of JSON files, we went over the <code>fromJSON()</code> function in <code>jsonlite</code>. However, R can do every kind of request using the <code>httr</code> package.</p>
 </div>
 
@@ -621,11 +612,6 @@ $(document).ready(function () {
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
-        <!-- Adding scroll up button -->
 
-        <div onclick="topFunction()" id="top_button" title="Go to top">
-            <i class="fas fa-chevron-up" style= "font-size: 1.15em;">
-            </div>
-        <script src="../../js/scroll_top.js"></script>
 </body>
 </html>

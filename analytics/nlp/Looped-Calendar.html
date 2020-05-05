@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-165584278-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-165584278-1');
+</script>
+
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Sentiment Calendar</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="../stylesheets/bootstrap.min.css" rel="stylesheet" />
+<script src = "../js/scroller.js"></script>
+<script src="../js/bootstrap-js/bootstrap.min.js"></script>
+<script src="../js/shim/html5shiv.min.js"></script>
+<script src="../js/shim/respond.min.js"></script>
+<script src="../js/navigation-1.1/tabsets.js"></script>
+
+<link href="../js/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="../js/highlightjs-9.12.0/highlight.js"></script>
+
+
+
+<script src="../js/kePrint-0.0.1/kePrint.js"></script>
+<link rel="stylesheet" type="text/css" href="../stylesheets/stylesheet.css" media="screen">
+<link rel="stylesheet" type="text/css" href="../stylesheets/github-light.css" media="screen">
+<link rel="stylesheet" type="text/css" href="../stylesheets/custom.css" media="screen">
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+  <section class= "main-content">
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Sentiment Calendar</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#setting-up-your-workspace">Setting Up Your Workspace</a></li>
+<li><a href="#preparing-the-data">Preparing the Data</a></li>
+<li><a href="#condensing-the-dataframe">Condensing the Dataframe</a></li>
+<li><a href="#creating-the-plot">Creating the Plot</a></li>
+<li><a href="#the-bipartisanship-of-negativity">The Bipartisanship of Negativity</a></li>
+</ul>
+</div>
+
+<p>How has your April been? If you are like most Americans you have mostly spent it at home watching the news, and for the most part the news has not been great.</p>
+<p>Sentiment analysis can provide an objective measure to how good or bad the news has been over the course of the past month. But this, of course, raises the question of what exactly is <em>the news</em>.</p>
+<p>While, as you can expect, we are unable to capture the entire universe of news articles in digestable chunks, we can get a somewhat representative sample of the news by pulling tens of thousands of tweets from major news outlets. You can find a tutorial on how to pull tweets <a href="https://nlp-working-group.netlify.app/nlp/twitter-tutorial.html">here</a>.</p>
+<p>We are going to start this tutorial under the assumption that you have pulled the needed tweets from whatever news organizations that you want to include. Once you have your data save it in a folder called “data” within your project.</p>
+<div id="setting-up-your-workspace" class="section level2">
+<h2>Setting Up Your Workspace</h2>
+<p>First we need a way to load in and work with the data that we just pulled. For our analysis we loaded in 23 different organizations, which obviously would be too many to work with individually, so we will use a for loop.</p>
+<p>When pulling the data, I did not name each dataframe the same as I named each file. As such, we will need to create a vector of both all the files that we want to load in and the names of the data frames as they are read in.</p>
+<pre class="r"><code># create a list of files to pull in
+files = list.files(&quot;data/&quot;)
+# initiate a vector of data frame names
+names = c()
+
+# load all the files in and create a vector of their names
+for(i in 1:length(files)){
+  load(paste0(&quot;data/&quot;, files[i]))
+  temp = load(paste0(&quot;data/&quot;,files[i]))
+  names = append(names, temp)
+}
+
+# let's remove Trump as a news agency
+names = names[names != &quot;trump&quot;]</code></pre>
+<p>We also pulled the President’s tweets, but since he is not a news agency we won’t include him to start.</p>
+</div>
+<div id="preparing-the-data" class="section level2">
+<h2>Preparing the Data</h2>
+<p>We are going to use the method from <a href="https://corydonbaylor.github.io/visualizations/twitter_viz.html">this tutorial</a> to build a visualization showing how positive or negative the news was per day. Essentially what we will be doing is creating a heatmap calendar, with each day’s square being more green or more red based on how positive or negative the news was that day.</p>
+<p>Our end goal will be to have one dataframe with each row representing one day for each news organization. So for example, if we only had two news organizations, we would have a dataframe with 60 rows.</p>
+<pre class="r"><code># create a monthly df for each df loaded in
+
+all = data.frame()
+
+for(i in 1:length(names)){
+  df = get(names[i])
+  
+  text = df%&gt;%select(text, created_at, followers_count, screen_name)%&gt;%
+    mutate(
+      text = gsub(&quot; ?(f|ht)(tp)(s?)(://)(.*)[.|/](.*)&quot;, &quot;&quot;, df$text),
+      linenumber = row_number())
+  
+  sent = text%&gt;% #this allows us to retain the row number/the tweet
+    unnest_tokens(word, text)%&gt;% # this unnests the tweets into words
+    anti_join(stop_words)%&gt;% #removes common words (stop words)
+    left_join(get_sentiments(&quot;afinn&quot;)) %&gt;% # gets sentiment score based on afinn dictionary
+    mutate(value = ifelse(is.na(value), 0 , value))%&gt;%
+    group_by(linenumber) %&gt;% 
+    summarise(sentiment = sum(value, na.rm = T)) %&gt;% # sums up the sentiment to the tweet level 
+    right_join(., text, by = &quot;linenumber&quot;)%&gt;% # joins back to the original dataset with the sentiment score
+    mutate(date = substr(created_at, 1,10)) # cleans up created_at var
+  
+  month = sent%&gt;%group_by(date)%&gt;%
+    summarise(sentiment = mean(sentiment, na.rm =T))%&gt;%
+    # to create the plot we need to be able to organize with days as the columns and week number as the rows
+    mutate(followers_count = text$followers_count[1],
+           screen_name = text$screen_name[1]
+    )
+  
+  all = rbind(all, month)
+}
+
+all%&gt;%
+  slice(1:5)%&gt;%
+  kable()%&gt;%
+  kable_styling()</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:right;">
+sentiment
+</th>
+<th style="text-align:right;">
+followers_count
+</th>
+<th style="text-align:left;">
+screen_name
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2020-04-07
+</td>
+<td style="text-align:right;">
+-0.2727273
+</td>
+<td style="text-align:right;">
+15492514
+</td>
+<td style="text-align:left;">
+ABC
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-04-08
+</td>
+<td style="text-align:right;">
+-0.2886598
+</td>
+<td style="text-align:right;">
+15492514
+</td>
+<td style="text-align:left;">
+ABC
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-04-09
+</td>
+<td style="text-align:right;">
+-0.2127660
+</td>
+<td style="text-align:right;">
+15492514
+</td>
+<td style="text-align:left;">
+ABC
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-04-10
+</td>
+<td style="text-align:right;">
+0.0279720
+</td>
+<td style="text-align:right;">
+15492514
+</td>
+<td style="text-align:left;">
+ABC
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-04-11
+</td>
+<td style="text-align:right;">
+-0.1000000
+</td>
+<td style="text-align:right;">
+15492514
+</td>
+<td style="text-align:left;">
+ABC
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="condensing-the-dataframe" class="section level2">
+<h2>Condensing the Dataframe</h2>
+<p>Next we need to condense our dataframe so there are only 30 rows in the dataset, one for each day. In order to do this, we will need to take a weighted average of each news organization -- the idea here being that CNN’s tweets reach more people than The Hill’s and thus have a greater impact on the public’s perception of the news.</p>
+<p>After we condense it down to just 30 rows, we will need to add some helper variables, so that ggplot can neatly organize the data into a calendar. We will need to know what day of the week a given day is and which week that day fell into that year.</p>
+<pre class="r"><code>final = all%&gt;%
+  mutate(date = ymd(date))%&gt;%
+  filter(date &gt;= &quot;2020-04-01&quot;, 
+         date &lt;= &quot;2020-04-30&quot;)%&gt;%
+  group_by(date)%&gt;%
+  summarise(weighted = weighted.mean(sentiment, followers_count))%&gt;%
+  mutate(weekday =  
+           
+           factor(wday(date), labels = c(&quot;Sun&quot;, &quot;Mon&quot;, &quot;Tues&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;))
+  )%&gt;% # this gives us an order factor variable for days
+  mutate(day = day(date))%&gt;% # we will use this to write in the date on the squares
+  mutate(weeknum = isoweek(date))%&gt;% # what number week it is--allows us to group days into weeks
+  mutate(weeknum = ifelse(weekday == &quot;Sun&quot;, weeknum +1, weeknum))%&gt;% # iso says that monday is the first day of the week but we want sunday to be the first day
+  mutate(weeknum = factor(weeknum, rev(unique(weeknum)), ordered = T))
+
+final%&gt;%
+  slice(1:5)%&gt;%
+  kable()%&gt;%
+  kable_styling()</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+date
+</th>
+<th style="text-align:right;">
+weighted
+</th>
+<th style="text-align:left;">
+weekday
+</th>
+<th style="text-align:right;">
+day
+</th>
+<th style="text-align:left;">
+weeknum
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+2020-04-01
+</td>
+<td style="text-align:right;">
+-0.7725948
+</td>
+<td style="text-align:left;">
+Wed
+</td>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:left;">
+14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-04-02
+</td>
+<td style="text-align:right;">
+-0.8739764
+</td>
+<td style="text-align:left;">
+Thu
+</td>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:left;">
+14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-04-03
+</td>
+<td style="text-align:right;">
+-0.3955348
+</td>
+<td style="text-align:left;">
+Fri
+</td>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:left;">
+14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-04-04
+</td>
+<td style="text-align:right;">
+-0.6964138
+</td>
+<td style="text-align:left;">
+Sat
+</td>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:left;">
+14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+2020-04-05
+</td>
+<td style="text-align:right;">
+-0.4477482
+</td>
+<td style="text-align:left;">
+Sun
+</td>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:left;">
+15
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="creating-the-plot" class="section level2">
+<h2>Creating the Plot</h2>
+<p>Finally, now that we have the data properly organized, we can build out the actual plot. We will be using the <code>geom_tile()</code> function to build 4 to 5 rows of equally sized squares that will be meant to mimic the look of a calendar. The x axis will be the day of the week, and the y axis will be week number (i.e., how many weeks have passed in the year). We are going to fill in each day with the weighted sentiment score.</p>
+<pre class="r"><code>ggplot(final, aes(x= weekday, y =weeknum, fill = weighted))+ 
+  geom_tile(color = &quot;#323232&quot;)+ # makes the lines a bit more muted
+  geom_text(label = final$day, size =4, color = &quot;black&quot;)+ # days
+  # positive days should be green and negative ones should be red
+  scale_fill_gradient2(midpoint = 0, low = &quot;#d2222d&quot;, mid = &quot;white&quot;, high = &quot;#238823&quot;)+ 
+  # we are going to remove the majority of the plot 
+  theme(axis.title = element_blank(),
+        panel.background = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text.y = element_blank(),
+        legend.text = element_blank(),
+        legend.position = &quot;none&quot;,
+        plot.title = element_text(face = &quot;bold&quot;),
+        plot.caption = element_text(color = &quot;#323232&quot;)
+  )+
+  labs(title = &quot;This April in Tweets&quot;, 
+       subtitle = &quot;A Sentiment Analysis of News Tweets&quot;,
+       caption = &quot;Darker Green = More Positive\nDarker Red = More Negative&quot;)</code></pre>
+<p><img src="Looped-Calendar_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+<div id="the-bipartisanship-of-negativity" class="section level2">
+<h2>The Bipartisanship of Negativity</h2>
+<p>So now that we have created a calendar that incorporates all of the news agencies, we should take a step back and see how positive or negative each individual news agency was on average.</p>
+<pre class="r"><code>rankings = all %&gt;%
+  group_by(screen_name)%&gt;%
+  summarise(score = mean(sentiment))%&gt;%
+  arrange(desc(score))%&gt;%
+  mutate(screen_name2 = fct_reorder(screen_name, score, max, .desc = F
+                         ))
+
+
+ggplot(data = rankings)+
+  geom_bar(aes(x = screen_name2, y = score), stat = &quot;identity&quot;, fill = &quot;#8b1700&quot;)+
+  theme_classic()+
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))+
+  labs(x = &quot;News Organization&quot;, y = &quot;Sentiment Score&quot;)</code></pre>
+<p><img src="Looped-Calendar_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>An obvious observation is that every single organization had a negative average score each day.</p>
+</div>
+
+
+
+
+  </section>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
